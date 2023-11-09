@@ -12,11 +12,4 @@ export class CreateProductDto {
   @IsNotEmpty()
   @IsNumber({ allowNaN: false })
   price: number;
-
-  @IsNotEmpty()
-  @IsNumber()
-  readonly stock: number;
-
-  @IsString()
-  readonly image: string;
 }
