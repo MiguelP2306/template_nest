@@ -7,9 +7,8 @@ import { DatabaseModule } from './database/database.module';
 import { ConfigModule } from '@nestjs/config';
 
 import { enviroments } from '../enviroments';
-import config from '../config';
-
-import * as Joi from 'joi';
+import config from '../config/config';
+import { configSchema } from '../config/validationSchema';
 
 @Module({
   imports: [
@@ -17,9 +16,7 @@ import * as Joi from 'joi';
       envFilePath: enviroments[process.env.NODE_ENV] || '.dev.env',
       load: [config],
       isGlobal: true,
-      validationSchema: Joi.object({
-        NODE_ENV: Joi.string().required(),
-      }),
+      validationSchema: configSchema,
     }),
     UsersModule,
     ProductsModule,

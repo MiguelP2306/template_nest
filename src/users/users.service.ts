@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 
 // DTO'S
 import { CreateUserDto } from './dto/create-user.dto';
@@ -6,16 +6,10 @@ import { UpdateUserDto } from './dto/update-user.dto';
 
 // Services
 import { ProductsService } from 'src/products/products.service';
-import { ConfigType } from '@nestjs/config';
-
-import config from '../../config';
 
 @Injectable()
 export class UsersService {
-  constructor(
-    private productsService: ProductsService,
-    @Inject(config.KEY) private configService: ConfigType<typeof config>,
-  ) {}
+  constructor(private productsService: ProductsService) {}
 
   create(createUserDto: CreateUserDto) {
     return 'This action adds a new user';
