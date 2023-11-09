@@ -17,8 +17,6 @@ import config from 'config/config';
           username: user,
           password,
           database: name,
-          synchronize: true,
-          autoLoadEntities: true,
         };
       },
     }),

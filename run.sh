@@ -36,11 +36,11 @@ reset_containers () {
 }
 
 migrations_create () {
-  npm run migrations:create api/src/database/migrations/$1
+  yarn migration:create ./src/database/migrations/$1
 }
 
 migrations_generate () {
-  npm run migrations:generate api/src/database/migrations/$1
+  yarn migration:generate ./src/database/migrations/$1
 }
 
 ${@}
