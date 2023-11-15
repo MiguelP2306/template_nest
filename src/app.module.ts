@@ -10,6 +10,7 @@ import config from '../config/config';
 import { configSchema } from '../config/validationSchema';
 import { AuthService } from './auth/services/auth/auth.service';
 import { AuthModule } from './auth/auth.module';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { AuthModule } from './auth/auth.module';
     UsersModule,
     DatabaseModule,
     AuthModule,
+    JwtModule,
   ],
   controllers: [AppController],
   providers: [AppService, AuthService],

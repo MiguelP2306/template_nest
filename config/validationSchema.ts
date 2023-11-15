@@ -7,4 +7,5 @@ export const configSchema = Joi.object({
   DB_PASSWORD: Joi.string().required(),
   DB_PORT: Joi.number().required(),
   DB_HOST: Joi.string().hostname().required(),
+  JWT_SECRET: Joi.string().required(),
 });
