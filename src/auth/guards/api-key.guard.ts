@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { Request } from 'express';
-import { IS_PUBLIC_KEY } from '../../decorators/public.decorator';
+import { IS_PUBLIC } from '../decorators/public.decorator';
 
 @Injectable()
 export class ApiKeyGuard implements CanActivate {
@@ -17,7 +17,7 @@ export class ApiKeyGuard implements CanActivate {
 
     const authHeader = request.header('Auth');
 
-    const isAuth = authHeader === IS_PUBLIC_KEY;
+    const isAuth = authHeader === IS_PUBLIC;
 
     if (!isAuth) {
       throw new UnauthorizedException('not allow');
