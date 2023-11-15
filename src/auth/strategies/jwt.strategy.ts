@@ -3,7 +3,10 @@ import { ConfigType } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';
 import { Strategy, ExtractJwt } from 'passport-jwt';
 
+// Config
 import config from 'config/config';
+
+// Models
 import { PayloadToken } from '../models/token.model';
 
 export const JWT_STRATEGY = 'jwt';

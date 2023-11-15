@@ -2,9 +2,18 @@ import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 
+// Services
 import { UsersService } from '../../../users/users.service';
+
+// Entity
 import { User } from '../../../users/entities/user.entity';
+
+// Models
 import { PayloadToken } from '../../models/token.model';
+
+// Interfaces
+import { IAuthLogin } from 'src/commons/Interface/auth.interface';
+import { ErrorManager } from 'src/commons/utils/error.manager';
 
 @Injectable()
 export class AuthService {
@@ -13,16 +22,29 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async validateUser({ email, password }: { email: string; password: string }) {
-    const user = await this.usersService.findByEmail({ email });
+  async validateUser({ email, password }: IAuthLogin) {
+    try {
+      const user = await this.usersService.findByEmail({ email });
 
-    const isMatch = await bcrypt.compare(password, user.password);
+      if (!user)
+        throw new ErrorManager({
+          type: 'UNAUTHORIZED',
+          message: 'Email or password are incorrect',
+        });
 
-    if (user && isMatch) {
-      return this.generateJwt({ user });
+      const isMatch = await bcrypt.compare(password, user.password);
+
+      if (user && isMatch) {
+        return this.generateJwt({ user });
+      }
+
+      throw new ErrorManager({
+        type: 'UNAUTHORIZED',
+        message: 'Email or password are incorrect',
+      });
+    } catch (error) {
+      throw ErrorManager.createSignatureError(error.message);
     }
-
-    return null;
   }
 
   generateJwt({ user }: { user: User }) {

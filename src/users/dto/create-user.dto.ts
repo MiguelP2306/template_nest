@@ -1,24 +1,37 @@
-import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
-import { ApiProperty } from '@nestjs/swagger';
+import { IsEmail, IsEnum, IsNotEmpty, IsString } from 'class-validator';
+
+// Commons
+import { ROLES } from 'src/commons/models';
 
 export class CreateUserDto {
   @IsNotEmpty()
   @IsString()
-  @ApiProperty({ description: 'Esto es el nombre de un usuario' })
-  readonly first_name: string;
+  readonly firstName: string;
 
   @IsNotEmpty()
   @IsString()
-  @ApiProperty({ description: 'Esto es el apellido de un usuario' })
-  readonly last_name: string;
+  readonly lastName: string;
 
   @IsNotEmpty()
   @IsEmail()
-  @ApiProperty({ description: 'Esto es el email de un usuario' })
   readonly email: string;
 
   @IsNotEmpty()
   @IsString()
-  @ApiProperty({ description: 'Esto es la contraseña de un usuario' })
   password: string;
+
+  @IsNotEmpty()
+  @IsEnum(ROLES)
+  readonly role: ROLES;
+}
+
+export class ResponseCreateUserDto {
+  id: number;
+  firstName: string;
+  lastName: string;
+  email: string;
+  role: string;
+  deleteAt: Date;
+  createdAt: Date;
+  updatedAt: Date;
 }

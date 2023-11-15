@@ -1,18 +1,24 @@
 import { BeforeInsert, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 import { Exclude } from 'class-transformer';
 import * as bcrypt from 'bcrypt';
-import { ROLES } from '../../commons/models';
 
-@Entity()
-export class User {
+// Commons
+import { ROLES } from '../../commons/models';
+import { BaseEntity } from '../../commons/baseEntity';
+
+// Interfaces
+import { IUser } from '../../commons/Interface/user.interface';
+
+@Entity({ name: 'users' })
+export class User extends BaseEntity implements IUser {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ type: 'varchar', length: 255 })
-  first_name: string;
+  @Column({ type: 'varchar', length: 255, name: 'first_name' })
+  firstName: string;
 
-  @Column({ type: 'varchar', length: 255 })
-  last_name: string;
+  @Column({ type: 'varchar', length: 255, name: 'last_name' })
+  lastName: string;
 
   @Column({ type: 'varchar', length: 255, unique: true })
   email: string;
