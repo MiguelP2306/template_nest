@@ -10,5 +10,17 @@ services:
     volumes:
       - mysql_medico_data:/var/lib/mysql
 
+  mysql_nest_e2e:
+    image: mysql:latest
+    container_name: mysql_nest_e2e
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_DATABASE}
+    ports:
+      - 3307:3306
+    volumes:
+      - mysql_medico_data_e2e:/var/lib/mysql
+
 volumes:
   mysql_medico_data: {}
+  mysql_medico_data_e2e: {}

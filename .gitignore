@@ -10,6 +10,8 @@ pnpm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
+package-lock.json
+yarn.lock
 
 # OS
 .DS_Store
@@ -35,3 +37,5 @@ lerna-debug.log*
 !.vscode/launch.json
 !.vscode/extensions.json
 *.env
+.vercel
+note.txt

@@ -1,21 +1,30 @@
 {
   "compilerOptions": {
     "module": "commonjs",
+    "target": "ES2021",
+    "lib": ["ES2021", "DOM"],
     "declaration": true,
+    "sourceMap": true,
+    "outDir": "./dist",
     "removeComments": true,
+    "strict": true,
+    "strictPropertyInitialization": false,
+    "esModuleInterop": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
-    "target": "ES2021",
-    "sourceMap": true,
-    "outDir": "./dist",
-    "baseUrl": "./",
     "incremental": true,
     "skipLibCheck": true,
-    "strictNullChecks": false,
-    "noImplicitAny": false,
-    "strictBindCallApply": false,
-    "forceConsistentCasingInFileNames": false,
-    "noFallthroughCasesInSwitch": false
-  }
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedIndexedAccess": true,
+    "useUnknownInCatchVariables": false,
+    "baseUrl": "./", // Configura baseUrl
+    "paths": {
+      "@app/*": ["src/*"]
+    },
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules", "dist"]
 }

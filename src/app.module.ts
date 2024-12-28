@@ -2,27 +2,25 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 
-// Controllers
-import { AppController } from './app.controller';
-
 // Services
-import { AppService } from './app.service';
-import { AuthService } from './auth/services/auth/auth.service';
+import { AuthService } from './modules/auth/services/auth/auth.service';
 
-// Module
-import { UsersModule } from './users/users.module';
+// Modules
 import { DatabaseModule } from './database/database.module';
-import { AuthModule } from './auth/auth.module';
+import { UsersModule } from './modules/users/users.module';
+import { AuthModule } from './modules/auth/auth.module';
+import { MeModule } from './modules/me/me.module';
 
-// Const
-import { enviroments } from '../enviroments';
-import config from '../config/config';
+// Config
 import { configSchema } from '../config/validationSchema';
+import { enviroments, Environment } from '../enviroments';
+import { config } from '../config';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
-      envFilePath: enviroments[process.env.NODE_ENV] || '.dev.env',
+      envFilePath:
+        enviroments[process.env.NODE_ENV as Environment] || enviroments.prod,
       load: [config],
       isGlobal: true,
       validationSchema: configSchema,
@@ -31,8 +29,8 @@ import { configSchema } from '../config/validationSchema';
     DatabaseModule,
     AuthModule,
     JwtModule,
+    MeModule,
   ],
-  controllers: [AppController],
-  providers: [AppService, AuthService],
+  providers: [AuthService],
 })
 export class AppModule {}

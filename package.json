@@ -8,21 +8,24 @@
   "scripts": {
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
-    "start": "nest start",
-    "start:dev": "NODE_ENV=dev nest start --watch",
+    "start": "cross-env NODE_ENV=prod nest start",
+    "start:dev": "cross-env NODE_ENV=dev nest start --watch",
+    "start:test": "cross-env NODE_ENV=test nest start --watch",
     "start:debug": "nest start --debug --watch",
-    "start:prod": "node dist/main",
+    "start:prod": "cross-env NODE_ENV=prod pm2 start dist/src/main.js --name remesas-api",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json",
-    "typeorm": "typeorm-ts-node-esm -d src/database/data-source.ts",
-    "migration:generate": "yarn typeorm -- migration:generate",
-    "migration:run": "yarn typeorm -- migration:run",
-    "migration:show": "yarn typeorm -- migration:show",
-    "migration:revert": "yarn typeorm -- migration:revert"
+    "test:e2e": "cross-env NODE_ENV=test jest --config ./test/jest-e2e.json",
+    "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js -d ./src/database/data-source.ts",
+    "migration:generate": "npm run typeorm migration:generate",
+    "migration:run:prod": "cross-env NODE_ENV=prod npm run typeorm migration:run",
+    "migration:run:dev": "cross-env NODE_ENV=dev npm run typeorm migration:run",
+    "migration:run:test": "cross-env NODE_ENV=test npm run typeorm migration:run",
+    "migration:show": "npm run typeorm migration:show",
+    "migration:revert": "npm run typeorm migration:revert"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",
@@ -36,7 +39,8 @@
     "bcrypt": "^5.1.1",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.0",
-    "dotenv": "^16.3.1",
+    "cross-env": "^7.0.3",
+    "dotenv": "^16.4.5",
     "mysql2": "^3.6.3",
     "passport": "^0.6.0",
     "passport-jwt": "^4.0.1",
@@ -44,7 +48,7 @@
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.1",
     "swagger-ui-express": "^5.0.0",
-    "typeorm": "^0.3.17"
+    "typeorm": "^0.3.20"
   },
   "devDependencies": {
     "@nestjs/cli": "^10.0.0",
