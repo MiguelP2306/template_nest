@@ -10,24 +10,12 @@ export class CreateUserBodyDto {
   readonly lastName: string;
 
   @IsNotEmpty()
-  @IsString()
-  readonly dni: string;
-
-  @IsNotEmpty()
   @IsEmail()
   readonly email: string;
 
   @IsNotEmpty()
   @IsString()
   readonly password: string;
-
-  @IsNotEmpty()
-  @IsString()
-  readonly whatsApp: string;
-
-  @IsNotEmpty()
-  @IsString()
-  readonly countryCode: string;
 }
 
 export class ChangeUserPasswordBodyDto {

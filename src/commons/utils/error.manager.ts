@@ -14,7 +14,7 @@ export class ErrorManager extends Error {
   public static createSignatureError(message: string) {
     const name = message.split(' :: ')[0];
     if (name) {
-      // @ts-ignore
+      // @ts-expect-error @ts-ignore
       throw new HttpException(message, HttpStatus[name]);
     } else {
       throw new HttpException(message, HttpStatus.INTERNAL_SERVER_ERROR);

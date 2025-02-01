@@ -39,3 +39,4 @@ yarn.lock
 *.env
 .vercel
 note.txt
+yarn.lock

@@ -6,22 +6,19 @@ import {
   UseInterceptors,
   Param,
   Get,
-  // Delete,
   Patch,
   Query,
+  Delete,
 } from '@nestjs/common';
-// import { AuthGuard } from '@nestjs/passport';
 
 // Swagger
 import {
-  // ApiBadRequestResponse,
+  ApiBadRequestResponse,
   ApiBearerAuth,
   ApiBody,
-  // ApiCreatedResponse,
-  // ApiNotFoundResponse,
-  // ApiOkResponse,
+  ApiNotFoundResponse,
+  ApiOkResponse,
   ApiOperation,
-  // ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
 
@@ -35,8 +32,6 @@ import {
   UpdateBodyUserDto,
   ResponseUserDto,
   ResponseUsersDto,
-  ResponseSummaryUsersDto,
-  // ChangeUserPasswordBodyDto,
 } from './dto';
 
 // Guards
@@ -45,20 +40,14 @@ import { RolesGuard } from '../auth/guards/roles.guard';
 
 // Commons
 import {
-  QueryOptionsDto,
   ROLES,
-  // ResponseBadRequest,
-  // ResponseConflict,
-  // ResponseNotFound,
+  ResponseConflict,
   ResponseInterceptor,
-  IUserAuth,
+  ResponseNotFound,
 } from '../../commons';
 
 // Decorators
-import {
-  // AllRoles,
-  Roles } from '../auth/decorators/roles.decorator';
-import { UserToken } from '../auth/decorators/user.decorator';
+import { Roles } from '../auth/decorators/roles.decorator';
 
 @ApiTags('Users')
 @ApiBearerAuth()
@@ -76,26 +65,8 @@ export class UsersController {
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(ROLES.SUPERADMIN)
   @Get()
-  getAllUsers(
-    @Query() queries: FilterUserListDto,
-  ): Promise<ResponseUsersDto> {
+  getAllUsers(@Query() queries: FilterUserListDto): Promise<ResponseUsersDto> {
     return this.usersService.getAllUsers({ queries });
-  }
-
-  // -----------------------------GET SUMMARY USERS -------------------------------
-  @ApiOperation({
-    summary: 'Get summary users.',
-    description: 'this endpoint is for return summary users.',
-  })
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(ROLES.SUPERADMIN)
-  @Get('summary')
-  async getSummaryUsers(): Promise<ResponseSummaryUsersDto> {
-    const result = await this.usersService.getSummaryUsers();
-
-    return {
-      data: result
-    }
   }
 
   // -----------------------------POST CREATE USER--------------------------
@@ -114,8 +85,8 @@ export class UsersController {
     const createUser = await this.usersService.create(body);
 
     return {
-      data: createUser
-    }
+      data: createUser,
+    };
   }
 
   // --------------------------GET DETAILS USER------------------------------------
@@ -130,8 +101,8 @@ export class UsersController {
     const user = await this.usersService.getUserById({ id });
 
     return {
-      data: user
-    }
+      data: user,
+    };
   }
 
   // ------------------------------PATCH EDIT USER-----------------------------------
@@ -153,31 +124,35 @@ export class UsersController {
     const user = await this.usersService.editUser({ id, body });
 
     return {
-      data: user
-    }
+      data: user,
+    };
   }
 
   // -------------------------------DELETE USER-------------------------------
 
-  // @ApiOperation({
-  //   summary: 'Delete user.',
-  //   description: 'This endpoint is for delete the user.',
-  // })
-  // @ApiOkResponse({
-  //   type: ResponseUserDto,
-  //   description: 'delete user successfully.',
-  // })
-  // @ApiNotFoundResponse({
-  //   type: ResponseNotFound,
-  //   description: 'User with id ${id} was not found',
-  // })
-  // @ApiBadRequestResponse({
-  //   type: ResponseConflict,
-  //   description: 'The id is required',
-  // })
-  // @Delete(':id')
-  // @Roles(ROLES.SUPERADMIN, ROLES.CLIENT)
-  // deleteUser(@Param('id') id: string): Promise<ResponseUserDto> {
-  //   return this.usersService.deleteUser({ id });
-  // }
+  @ApiOperation({
+    summary: 'Delete user.',
+    description: 'This endpoint is for delete the user.',
+  })
+  @ApiOkResponse({
+    type: ResponseUserDto,
+    description: 'delete user successfully.',
+  })
+  @ApiNotFoundResponse({
+    type: ResponseNotFound,
+    description: 'User with id ${id} was not found',
+  })
+  @ApiBadRequestResponse({
+    type: ResponseConflict,
+    description: 'The id is required',
+  })
+  @Delete(':id')
+  @Roles(ROLES.SUPERADMIN, ROLES.CLIENT)
+  async deleteUser(@Param('id') id: string): Promise<ResponseUserDto> {
+    const res = await this.usersService.deleteUser({ id });
+
+    return {
+      data: res,
+    };
+  }
 }

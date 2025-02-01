@@ -24,35 +24,14 @@ export class User extends BaseEntity {
   lastName: string;
 
   @Column({ type: 'varchar', length: 255, unique: true })
-  dni: string;
-
-  @Column({ type: 'varchar', length: 255, unique: true })
   email: string;
 
   @Exclude()
   @Column({ type: 'varchar', length: 255 })
   password: string;
 
-  @Column({ type: 'varchar', length: 255 })
-  whatsApp: string;
-
   @Column({ type: 'enum', enum: ROLES, default: ROLES.CLIENT })
   role: ROLES;
-
-  @Column({ type: 'boolean', default: false })
-  isVerify: boolean;
-
-  @Column({ type: 'varchar', length: 255, name: 'country_code' })
-  countryCode: string;
-
-  @Column({ type: 'boolean', default: false, name: 'is_wholesaler' })
-  isWholesaler: boolean;
-
-  @Column({ type: 'boolean', default: true, name: 'is_active'})
-  isActive: boolean;
-
-  @Column({ type: 'boolean', default: false, name: 'is_dangerous'})
-  isDangerous: boolean;
 
   @BeforeInsert()
   @BeforeUpdate()
@@ -64,6 +43,7 @@ export class User extends BaseEntity {
   }
 
   @BeforeInsert()
+  @BeforeUpdate()
   @Exclude()
   async hashPassword() {
     if (!this.password) return;

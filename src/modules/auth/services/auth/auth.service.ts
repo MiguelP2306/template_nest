@@ -35,11 +35,6 @@ export class AuthService {
 
       const isMatch = await bcrypt.compare(password, user.password);
 
-      if (!user.isVerify)        throw new ErrorManager({
-        type: HttpStatus.UNAUTHORIZED,
-        message: 'You are not verified',
-      });
-
       if (user && isMatch) {
         return this.generateJwt({ user });
       }

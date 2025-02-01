@@ -1,15 +1,11 @@
 import { HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FindManyOptions, ILike, Repository } from 'typeorm';
-import { JwtService } from '@nestjs/jwt';
-import * as bcrypt from 'bcrypt';
 
 // DTO'S
 import {
-  ChangeUserPasswordBodyDto,
   CreateUserBodyDto,
   FilterUserListDto,
-  ResponseUserDto,
   ResponseUsersDto,
   UpdateBodyUserDto,
   UserDto,
@@ -19,21 +15,13 @@ import {
 import { User } from './entities/user.entity';
 
 // Commons
-import {
-  ErrorManager,
-  errorManagerParamCharacter,
-  REJEXT_PASSWORD,
-  QueryOptionsDto,
-  IUserAuth,
-  ROLES,
-} from '../../commons';
+import { ErrorManager, REJEXT_PASSWORD, ROLES } from '../../commons';
 import { mergeAndOrConditionsHelpers } from '@app/commons/utils/helpers.utils';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User) private usersRepository: Repository<User>,
-    private jwtService: JwtService,
   ) {}
 
   private validateUserPassword({ password }: { password: string }) {
@@ -51,22 +39,11 @@ export class UsersService {
     queries: FilterUserListDto;
   }): Promise<ResponseUsersDto> {
     try {
-      const {
-        search = '',
-        page = 1,
-        limit = 10,
-        countryCode,
-        role,
-        isActive,
-        isVerify,
-      } = queries ?? {};
+      const { search = '', page = 1, limit = 10, role } = queries ?? {};
 
       const AND_CONDITIONAL: FindManyOptions<User> = {
         where: {
-          ...(countryCode && { countryCode }),
           ...(role && { role }),
-          ...(isActive !== undefined && { isActive: !!isActive }),
-          ...(isVerify !== undefined && { isVerify: !!isVerify }),
         },
       };
 
@@ -75,7 +52,6 @@ export class UsersService {
           { firstName: ILike(`%${search}%`) },
           { lastName: ILike(`%${search}%`) },
           { email: ILike(`%${search}%`) },
-          { dni: ILike(`%${search}%`) },
         ],
       };
 
@@ -162,7 +138,7 @@ export class UsersService {
         });
       }
 
-      // @ts-ignore
+      // @ts-expect-error @ts-ignore
       delete user.password;
 
       return user;

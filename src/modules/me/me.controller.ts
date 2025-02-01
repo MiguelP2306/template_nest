@@ -3,30 +3,19 @@ import {
   UseGuards,
   UseInterceptors,
   Get,
-  // Body,
-  // Patch,
 } from '@nestjs/common';
 
 // Commons
 import {
-  // ApiBadRequestResponse,
   ApiBearerAuth,
-  // ApiBody,
-  ApiOkResponse,
   ApiOperation,
   ApiTags,
-  ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
 
 // Services
 import { MeService } from './me.service';
 
 // DTO'S
-// import { UpdateBodyMeDto } from './dto/updateMe.dto';
-import {
-  // ResponseBadRequest,
-  ResponseUnauthorized,
-} from '../../commons/dtos/response.dto';
 import { ResponseUserDto } from '../users/dto/responseUser.dto';
 
 // Guards
