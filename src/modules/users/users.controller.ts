@@ -52,6 +52,7 @@ import { Roles } from '../auth/decorators/roles.decorator';
 @ApiTags('Users')
 @ApiBearerAuth()
 @Controller('users')
+@UseGuards(JwtAuthGuard, RolesGuard)
 @UseInterceptors(ResponseInterceptor)
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
@@ -62,7 +63,6 @@ export class UsersController {
     summary: 'Get all users.',
     description: 'this endpoint is for return all users.',
   })
-  @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(ROLES.SUPERADMIN)
   @Get()
   getAllUsers(@Query() queries: FilterUserListDto): Promise<ResponseUsersDto> {
