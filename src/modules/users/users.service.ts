@@ -15,7 +15,7 @@ import {
 import { User } from './entities/user.entity';
 
 // Commons
-import { ErrorManager, REJEXT_PASSWORD, ROLES } from '../../commons';
+import { ErrorManager, REJEXT_PASSWORD } from '../../commons';
 import { mergeAndOrConditionsHelpers } from '@app/commons/utils/helpers.utils';
 
 @Injectable()
@@ -69,26 +69,6 @@ export class UsersService {
       return {
         data: users,
         count,
-      };
-    } catch (error) {
-      throw ErrorManager.createSignatureError(error.message);
-    }
-  }
-
-  async getSummaryUsers() {
-    try {
-      const totalResults = await Promise.all([
-        this.usersRepository.count(),
-        this.usersRepository.count({ where: { role: ROLES.CLIENT } }),
-        this.usersRepository.count({ where: { role: ROLES.SUPPLIER_CLIENT } }),
-        this.usersRepository.count({ where: { role: ROLES.SALES_AGENT } }),
-      ]);
-
-      return {
-        totalUsers: totalResults[0] || 0,
-        totalClients: totalResults[1] || 0,
-        totalSuppliers: totalResults[2] || 0,
-        totalSalesAgents: totalResults[3] || 0,
       };
     } catch (error) {
       throw ErrorManager.createSignatureError(error.message);
