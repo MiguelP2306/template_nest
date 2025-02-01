@@ -3,7 +3,7 @@ import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 
 // Entity
-import { User } from '../../../users/entities/user.entity';
+import { UserEntity } from '../../../users/entities/user.entity';
 
 // Interfaces
 import {
@@ -18,7 +18,7 @@ import { Repository } from 'typeorm';
 export class AuthService {
   constructor(
     private jwtService: JwtService,
-    @InjectRepository(User) private usersRepository: Repository<User>,
+    @InjectRepository(UserEntity) private usersRepository: Repository<UserEntity>,
   ) {}
 
   async validateUser({ email, password }: IAuthLogin) {
@@ -48,7 +48,7 @@ export class AuthService {
     }
   }
 
-  generateJwt({ user }: { user: User }) {
+  generateJwt({ user }: { user: UserEntity }) {
     const payload: PayloadToken = {
       role: user.role,
       sub: user.id,

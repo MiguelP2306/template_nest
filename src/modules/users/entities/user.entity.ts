@@ -13,7 +13,7 @@ import { ROLES } from '../../../commons/models';
 import { BaseEntity } from '../../../commons/baseEntity';
 
 @Entity({ name: 'users' })
-export class User extends BaseEntity {
+export class UserEntity extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 

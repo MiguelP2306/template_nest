@@ -12,7 +12,7 @@ import {
 } from './dto';
 
 // Entity
-import { User } from './entities/user.entity';
+import { UserEntity } from './entities/user.entity';
 
 // Commons
 import { ErrorManager, REJEXT_PASSWORD } from '../../commons';
@@ -21,7 +21,7 @@ import { mergeAndOrConditionsHelpers } from '@app/commons/utils/helpers.utils';
 @Injectable()
 export class UsersService {
   constructor(
-    @InjectRepository(User) private usersRepository: Repository<User>,
+    @InjectRepository(UserEntity) private usersRepository: Repository<UserEntity>,
   ) {}
 
   private validateUserPassword({ password }: { password: string }) {
@@ -41,13 +41,13 @@ export class UsersService {
     try {
       const { search = '', page = 1, limit = 10, role } = queries ?? {};
 
-      const AND_CONDITIONAL: FindManyOptions<User> = {
+      const AND_CONDITIONAL: FindManyOptions<UserEntity> = {
         where: {
           ...(role && { role }),
         },
       };
 
-      const OR_CONDITIONAL: FindManyOptions<User> = {
+      const OR_CONDITIONAL: FindManyOptions<UserEntity> = {
         where: [
           { firstName: ILike(`%${search}%`) },
           { lastName: ILike(`%${search}%`) },
@@ -55,7 +55,7 @@ export class UsersService {
         ],
       };
 
-      const OPTIONS_CONDITIONAL = mergeAndOrConditionsHelpers<User>({
+      const OPTIONS_CONDITIONAL = mergeAndOrConditionsHelpers<UserEntity>({
         and: AND_CONDITIONAL,
         or: OR_CONDITIONAL,
       });
@@ -98,7 +98,7 @@ export class UsersService {
     }
   }
 
-  async findByEmail({ email }: { email: string }): Promise<User | null> {
+  async findByEmail({ email }: { email: string }): Promise<UserEntity | null> {
     try {
       const user = await this.usersRepository.findOne({ where: { email } });
       return user;

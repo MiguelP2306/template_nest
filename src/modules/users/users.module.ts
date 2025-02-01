@@ -8,13 +8,13 @@ import { UsersService } from './users.service';
 import { UsersController } from './users.controller';
 
 // Entity
-import { User } from './entities/user.entity';
+import { UserEntity } from './entities/user.entity';
 
 @Module({
   imports: [JwtModule.register({
     secret: process.env.JWT_SECRET,
     signOptions: { expiresIn: '24h' },
-  }), TypeOrmModule.forFeature([User])],
+  }), TypeOrmModule.forFeature([UserEntity])],
   controllers: [UsersController],
   providers: [UsersService],
   exports: [UsersService, TypeOrmModule],

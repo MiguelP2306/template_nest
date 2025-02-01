@@ -7,7 +7,7 @@ import { ErrorManager } from '../../commons/utils/error.manager';
 import { IUserAuth } from '../../commons/Interface/auth.interface';
 
 // Entity
-import { User } from '../users/entities/user.entity';
+import { UserEntity } from '../users/entities/user.entity';
 
 // DTO'S
 import { UpdateBodyMeDto } from './dto/updateMe.dto';
@@ -16,10 +16,10 @@ import { UpdateBodyMeDto } from './dto/updateMe.dto';
 @Injectable()
 export class MeService {
   constructor(
-    @InjectRepository(User) private usersRepository: Repository<User>,
+    @InjectRepository(UserEntity) private usersRepository: Repository<UserEntity>,
   ) {}
 
-  async getMe({ me }: { me: IUserAuth }): Promise<User> {
+  async getMe({ me }: { me: IUserAuth }): Promise<UserEntity> {
     try {
       const user = await this.usersRepository.findOne({
         where: {

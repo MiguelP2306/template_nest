@@ -8,10 +8,10 @@ import { MeService } from './me.service';
 import { MeController } from './me.controller';
 
 // Entity
-import { User } from '../users/entities/user.entity';
+import { UserEntity } from '../users/entities/user.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([User])],
+  imports: [TypeOrmModule.forFeature([UserEntity])],
   controllers: [MeController],
   providers: [MeService]
 })
